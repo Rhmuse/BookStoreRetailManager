@@ -1,6 +1,5 @@
 ﻿using BSRMWPFUserInterface.Helpers;
 using Caliburn.Micro;
-using System;
 using System.Threading.Tasks;
 
 namespace BSRMWPFUserInterface.ViewModels
@@ -38,6 +37,38 @@ namespace BSRMWPFUserInterface.ViewModels
 			}
 		}
 
+
+
+		public bool IsErrorVisible
+		{
+			get
+			{
+				bool output = false;
+
+				if (ErrorMessage?.Length > 0)
+				{
+					output = true;
+				}
+				return output;
+			}
+		}
+
+		private string _errorMessage;
+
+		public string ErrorMessage
+		{
+			get { return _errorMessage; }
+			set
+			{
+				_errorMessage = value;
+				NotifyOfPropertyChange(() => IsErrorVisible);
+				NotifyOfPropertyChange(() => ErrorMessage);
+			}
+		}
+
+
+
+
 		public bool CanLogIn
 		{
 			get
@@ -58,12 +89,13 @@ namespace BSRMWPFUserInterface.ViewModels
 		{
 			try
 			{
+				ErrorMessage = "";
 				var result = await _apiHelper.Authenticate(UserName, Password);
 			}
 			catch (System.Exception ex)
 			{
 
-				Console.WriteLine(ex.Message);
+				ErrorMessage = ex.Message;
 			}
 		}
 	}

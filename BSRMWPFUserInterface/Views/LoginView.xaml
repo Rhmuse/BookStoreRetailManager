@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BSRMWPFUserInterface.Views"
-             mc:Ignorable="d" FontSize="24"
+             mc:Ignorable="d" FontSize="24" Background="White"
              d:DesignHeight="425" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -14,6 +14,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -29,31 +30,43 @@
                    Margin="0 0 0 20">
             Login Form
         </TextBlock>
-        
+
+        <!-- Error Message row -->
+        <TextBlock x:Name="ErrorMessage"
+                   Visibility="{Binding IsErrorVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
+                   MaxWidth="300"
+                   TextWrapping="Wrap"
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   Grid.ColumnSpan="2"
+                   Margin="0 0 0 20"
+                   Foreground="Red"
+                   HorizontalAlignment="Center"/>
+
         <!-- Username row -->
-        <TextBlock Grid.Row="1"
+        <TextBlock Grid.Row="2"
                    Grid.Column="1"
                    Margin="0 0 10 10">
                Username:
          </TextBlock>
         <TextBox x:Name="UserName"
-                 Grid.Row="1"
+                 Grid.Row="2"
                  Grid.Column="2"
-                 MinWidth="250"
+                 MinWidth="350"
                  Margin="0 0 0 10"/>
         <!-- Password row -->
-        <TextBlock Grid.Row="2"
+        <TextBlock Grid.Row="3"
                    Grid.Column="1"
                    Margin="0 0 10 10">
                Password:
         </TextBlock>
         <PasswordBox x:Name="Password"
-                 Grid.Row="2"
+                 Grid.Row="3"
                  Grid.Column="2"
-                 MinWidth="250"
+                 MinWidth="350"
                  Margin="0 0 0 20" />
         <!-- Login row -->
-        <Button Grid.Row="3"
+        <Button Grid.Row="4"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 HorizontalAlignment="Center"
@@ -62,5 +75,8 @@
                 >
             Log In
         </Button>
+        
+
+
     </Grid>
 </UserControl>
