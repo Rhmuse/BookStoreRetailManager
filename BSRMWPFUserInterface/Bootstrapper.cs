@@ -1,9 +1,11 @@
-﻿using BSRMWPFUserInterface.ViewModels;
+﻿using BSRMWPFUserInterface.Helpers;
+using BSRMWPFUserInterface.ViewModels;
 using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace BSRMWPFUserInterface
 {
@@ -13,6 +15,11 @@ namespace BSRMWPFUserInterface
         public Bootstrapper()
         {
             Initialize();
+
+            ConventionManager.AddElementConvention<PasswordBox>(
+                PasswordBoxHelper.BoundPasswordProperty,
+                "Password",
+                "PasswordChanged");
         }
 
         protected override void Configure()
