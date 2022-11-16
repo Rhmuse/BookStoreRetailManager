@@ -1,5 +1,7 @@
-﻿using Caliburn.Micro;
+﻿using BSRMWPFUserInterface.Helpers;
+using Caliburn.Micro;
 using System;
+using System.Threading.Tasks;
 
 namespace BSRMWPFUserInterface.ViewModels
 {
@@ -7,6 +9,12 @@ namespace BSRMWPFUserInterface.ViewModels
 	{
 		private string _userName;
 		private string _password;
+		private IAPIHelper _apiHelper;
+
+		public LoginViewModel(IAPIHelper apiHelper)
+		{
+			_apiHelper = apiHelper;
+		}
 
 		public string UserName
 		{
@@ -46,9 +54,17 @@ namespace BSRMWPFUserInterface.ViewModels
 
 		}
 
-		public void LogIn()
+		public async Task LogIn()
 		{
-			Console.WriteLine();
+			try
+			{
+				var result = await _apiHelper.Authenticate(UserName, Password);
+			}
+			catch (System.Exception ex)
+			{
+
+				Console.WriteLine(ex.Message);
+			}
 		}
 	}
 }
