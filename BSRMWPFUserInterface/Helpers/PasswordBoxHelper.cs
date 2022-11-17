@@ -13,8 +13,7 @@ namespace BSRMWPFUserInterface.Helpers
                 new FrameworkPropertyMetadata(string.Empty, OnBoundPasswordChanged));
         public static string GetBoundPassword(DependencyObject d)
         {
-            var box = d as PasswordBox;
-            if (box != null)
+            if (d is PasswordBox box)
             {
                 // this funny little dance here ensures that we've hooked the
                 // PasswordChanged event once, and only once.
@@ -39,14 +38,10 @@ namespace BSRMWPFUserInterface.Helpers
             DependencyObject d,
             DependencyPropertyChangedEventArgs e)
         {
-            var box = d as PasswordBox;
-
-            if (box == null)
+            if (d is PasswordBox box)
             {
-                return;
+                box.Password = GetBoundPassword(d);
             }
-
-            box.Password = GetBoundPassword(d);
         }
 
         private static void PasswordChanged(object sender, RoutedEventArgs e)

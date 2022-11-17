@@ -1,4 +1,4 @@
-﻿using BSRMWPFUserInterface.Helpers;
+﻿using BSRMWPFUserInterface.Library.Api;
 using Caliburn.Micro;
 using System.Threading.Tasks;
 
@@ -91,6 +91,9 @@ namespace BSRMWPFUserInterface.ViewModels
 			{
 				ErrorMessage = "";
 				var result = await _apiHelper.Authenticate(UserName, Password);
+
+				// Capture more information about the user.
+				await _apiHelper.GetLoggedInUserAsync(result.Access_Token);
 			}
 			catch (System.Exception ex)
 			{

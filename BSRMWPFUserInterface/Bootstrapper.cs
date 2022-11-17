@@ -1,4 +1,6 @@
 ﻿using BSRMWPFUserInterface.Helpers;
+using BSRMWPFUserInterface.Library.Api;
+using BSRMWPFUserInterface.Library.Models;
 using BSRMWPFUserInterface.ViewModels;
 using Caliburn.Micro;
 using System;
@@ -29,6 +31,7 @@ namespace BSRMWPFUserInterface
             _container
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
+                .Singleton<ILoggedInUserModel, LoggedInUserModel>()
                 .Singleton<IAPIHelper, APIHelper>();
 
             GetType().Assembly.GetTypes()

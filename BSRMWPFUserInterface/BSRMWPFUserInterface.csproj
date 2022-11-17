@@ -87,8 +87,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Helpers\APIHelper.cs" />
-    <Compile Include="Helpers\IAPIHelper.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
@@ -145,6 +143,10 @@
     <ProjectReference Include="..\BSRMDataManager\BSRMDataManager.csproj">
       <Project>{41A0FEA1-45B6-4729-B754-4DABA32102F6}</Project>
       <Name>BSRMDataManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BSRMWPFUserInterface.Library\BSRMWPFUserInterface.Library.csproj">
+      <Project>{B5F4B61B-108A-4864-A2FA-83AD9A2C01B4}</Project>
+      <Name>BSRMWPFUserInterface.Library</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
