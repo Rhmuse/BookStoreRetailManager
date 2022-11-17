@@ -25,20 +25,20 @@ namespace BSRMWPFUserInterface.ViewModels
 			set
 			{
 				_cart = value;
-				NotifyOfPropertyChange(nameof(Cart));
+				NotifyOfPropertyChange(() => Cart);
 			}
 		}
 
 
-		private string _itemQuantity;
+		private int _itemQuantity;
 
-		public string ItemQuantity
+		public int ItemQuantity
 		{
 			get { return _itemQuantity; }
 			set
 			{
 				_itemQuantity = value;
-				NotifyOfPropertyChange(nameof(Products));
+				NotifyOfPropertyChange(() => ItemQuantity);
 			}
 		}
 

@@ -1,4 +1,5 @@
-﻿using BSRMWPFUserInterface.Library.Api;
+﻿using BSRMWPFUserInterface.EventModels;
+using BSRMWPFUserInterface.Library.Api;
 using Caliburn.Micro;
 using System.Threading.Tasks;
 
@@ -9,10 +10,12 @@ namespace BSRMWPFUserInterface.ViewModels
 		private string _userName;
 		private string _password;
 		private IAPIHelper _apiHelper;
+		private IEventAggregator _events;
 
-		public LoginViewModel(IAPIHelper apiHelper)
+		public LoginViewModel(IAPIHelper apiHelper, IEventAggregator events)
 		{
 			_apiHelper = apiHelper;
+			_events = events;
 		}
 
 		public string UserName
@@ -94,6 +97,8 @@ namespace BSRMWPFUserInterface.ViewModels
 
 				// Capture more information about the user.
 				await _apiHelper.GetLoggedInUserAsync(result.Access_Token);
+
+				_events.PublishOnUIThread(new LogOnEvent());
 			}
 			catch (System.Exception ex)
 			{
