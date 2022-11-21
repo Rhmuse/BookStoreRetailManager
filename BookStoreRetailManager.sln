@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSRMWPFUserInterface.Librar
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GravityBooksData", "GravityBooksData\GravityBooksData.sqlproj", "{78CFEFBB-4955-403E-B179-A7799A42A69E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GravityBooksData Manager", "GravityBooksData Manager\GravityBooksData Manager.csproj", "{0B83D3D1-C5A9-4CC2-9868-17E93FAC2E64}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GravityBooksDataManager", "GravityBooksData Manager\GravityBooksDataManager.csproj", "{0B83D3D1-C5A9-4CC2-9868-17E93FAC2E64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

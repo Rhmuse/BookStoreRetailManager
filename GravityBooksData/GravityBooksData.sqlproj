@@ -60,6 +60,7 @@
     <Folder Include="dbo\Tables\" />
     <Folder Include="Scripts\" />
     <Folder Include="dbo\Stored Procedures" />
+    <Folder Include="PublishLocations" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\author.sql" />
@@ -78,5 +79,20 @@
     <Build Include="dbo\Tables\order_line.sql" />
     <Build Include="dbo\Tables\order_history.sql" />
     <Build Include="dbo\Stored Procedures\spBooks_GetAll.sql" />
+    <None Include="Scripts\02_sqlserver_populate_author.sql" />
+    <None Include="Scripts\03_sqlserver_populate_publisher.sql" />
+    <None Include="Scripts\04_sqlserver_populate_lookups.sql" />
+    <None Include="Scripts\05_sqlserver_populate_book.sql" />
+    <None Include="Scripts\06_sqlserver_populate_bookauthor.sql" />
+    <None Include="Scripts\07_sqlserver_populate_country.sql" />
+    <None Include="Scripts\08_sqlserver_populate_address.sql" />
+    <None Include="Scripts\09_sqlserver_populate_customer.sql" />
+    <None Include="Scripts\10_sqlserver_populate_others.sql" />
+    <None Include="Scripts\11_sqlserver_populate_order.sql" />
+    <None Include="Scripts\12_sqlserver_populate_orderline.sql" />
+    <None Include="Scripts\13_sqlserver_populate_orderhistory.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PublishLocations\GravityBooksData.publish.xml" />
   </ItemGroup>
 </Project>
