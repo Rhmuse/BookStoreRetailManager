@@ -7,5 +7,6 @@
         string ProductName { get; set; }
         int QuantityInStock { get; set; }
         decimal RetailPrice { get; set; }
+        bool IsTaxable { get; set; }
     }
 }
