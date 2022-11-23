@@ -76,7 +76,7 @@ namespace BSRMWPFUserInterface.Library.Api
                     _loggedInUser.LastName = result.LastName;
                     _loggedInUser.Id = result.Id;
                     _loggedInUser.EmailAddress = result.EmailAddress;
-                    _loggedInUser.Token = result.Token;
+                    _loggedInUser.Token = token;
                     _loggedInUser.CreatedDate = result.CreatedDate;
                 }
                 else
