@@ -20,7 +20,7 @@ namespace BSRMDataManager.Library.DataAccess
                 var detail = new SaleDetailDBModel
                 {
                     ProductId = item.ProductId,
-                    Quanity = item.Quantity
+                    Quantity = item.Quantity
                 };
 
                 // Get the information about this product
@@ -31,7 +31,7 @@ namespace BSRMDataManager.Library.DataAccess
                     throw new Exception($"The product Id of {detail.ProductId} could not be found in the database.");
                 }
 
-                detail.PurchasePrice = (productInfo.RetailPrice * detail.Quanity);
+                detail.PurchasePrice = (productInfo.RetailPrice * detail.Quantity);
 
                 if (productInfo.IsTaxable)
                 {

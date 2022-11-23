@@ -1,7 +1,9 @@
-﻿using BSRMWPFUserInterface.Helpers;
+﻿using AutoMapper;
+using BSRMWPFUserInterface.Helpers;
 using BSRMWPFUserInterface.Library.Api;
 using BSRMWPFUserInterface.Library.Helpers;
 using BSRMWPFUserInterface.Library.Models;
+using BSRMWPFUserInterface.Models;
 using BSRMWPFUserInterface.ViewModels;
 using Caliburn.Micro;
 using System;
@@ -25,8 +27,23 @@ namespace BSRMWPFUserInterface
                 "PasswordChanged");
         }
 
+        private IMapper ConfigureAutomapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ProductModel, ProductDisplayModel>();
+                cfg.CreateMap<CartItemModel, CartItemDisplayModel>();
+            });
+
+            var output = config.CreateMapper();
+
+            return output;
+        }
+
         protected override void Configure()
         {
+            _container.Instance(ConfigureAutomapper());
+
             _container.Instance(_container)
                 .PerRequest<IProductEndpoint, ProductEndpoint>()
                 .PerRequest<ISaleEndpoint, SaleEndpoint>();
