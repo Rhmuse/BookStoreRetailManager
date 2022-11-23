@@ -9,5 +9,6 @@ namespace BSRMWPFUserInterface.Library.Api
         HttpClient ApiClient { get; }
         Task<AuthenticatedUser> Authenticate(string userName, string password);
         Task GetLoggedInUserAsync(string token);
+        void LogOffUser();
     }
 }

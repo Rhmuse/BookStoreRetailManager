@@ -60,6 +60,11 @@ namespace BSRMWPFUserInterface.Library.Api
             }
         }
 
+        public void LogOffUser()
+        {
+            _apiClient.DefaultRequestHeaders.Clear();
+        }
+
         public async Task GetLoggedInUserAsync(string token)
         {
             _apiClient.DefaultRequestHeaders.Clear();
