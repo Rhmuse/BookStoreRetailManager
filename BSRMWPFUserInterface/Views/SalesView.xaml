@@ -8,7 +8,7 @@
              FontSize="24"
              Background="White"
              d:DesignHeight="550"
-             d:DesignWidth="800">
+             d:DesignWidth="1000">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -94,7 +94,8 @@
                  Grid.Row="2"
                  Grid.Column="2"
                  MinHeight="200"
-                 MinWidth="150">
+                 MinWidth="150"
+                 SelectedItem="{Binding SelectedCartItem}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding DisplayText}" />
