@@ -81,6 +81,16 @@ namespace BSRMDataManager.Library.DataAccess
                     throw;
                 }
             }
+
+        }
+
+        public List<SaleReportModel> GetSaleReports()
+        {
+            SqlDataAccess sql = new SqlDataAccess();
+
+            var output = sql.LoadData<SaleReportModel, dynamic>("dbo.spSale_SaleReport", new { }, "BSRMData");
+
+            return output;
         }
     }
 }
