@@ -43,11 +43,15 @@ namespace BSRMDataManager.Library.Internal.DataAccess
 
         public void StartTransaction(string connectionStringName)
         {
-            _connection = new SqlConnection(connectionStringName);
+            string connectionString = GetConnectionString(connectionStringName);
+
+            _connection = new SqlConnection(connectionString);
 
             _connection.Open();
 
             _transaction = _connection.BeginTransaction();
+
+            isClosed = false;
         }
 
         public List<T> LoadDataInTransaction<T, U>(string storedProcedure, U parameters)
@@ -71,21 +75,40 @@ namespace BSRMDataManager.Library.Internal.DataAccess
             }
         }
 
+        private bool isClosed = false;
+
         public void CommitTransation()
         {
             _transaction?.Commit();
             _connection?.Close();
+
+            isClosed = true;
         }
 
         public void RollBackTransaction()
         {
             _transaction?.Rollback();
             _connection?.Close();
+
+            isClosed = true;
         }
 
         public void Dispose()
         {
-            CommitTransation();
+            if (isClosed == false)
+            {
+                try
+                {
+                    CommitTransation();
+                }
+                catch
+                {
+                    // Log this issue. 
+                }
+            }
+
+            _transaction = null;
+            _connection = null;
         }
     }
 }
