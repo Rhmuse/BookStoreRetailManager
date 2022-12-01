@@ -6,8 +6,10 @@ using BSRMWPFUserInterface.Models;
 using Caliburn.Micro;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace BSRMWPFUserInterface.ViewModels
 {
@@ -17,6 +19,8 @@ namespace BSRMWPFUserInterface.ViewModels
 		IConfigHelper _configHelper;
 		ISaleEndpoint _saleEndpoint;
 		IMapper _mapper;
+		private readonly StatusInfoViewModel _statusInfoViewModel;
+		private readonly IWindowManager _window;
 
 
 
@@ -24,18 +28,44 @@ namespace BSRMWPFUserInterface.ViewModels
 			IProductEndpoint productEndpoint,
 			IConfigHelper configHelper,
 			ISaleEndpoint saleEndpoint,
-			IMapper mapper)
+			IMapper mapper,
+			StatusInfoViewModel statusInfoViewModel,
+			IWindowManager window)
 		{
 			_productEndpoint = productEndpoint;
 			_configHelper = configHelper;
 			_saleEndpoint = saleEndpoint;
 			_mapper = mapper;
+			_statusInfoViewModel = statusInfoViewModel;
+			_window = window;
 		}
 
 		protected override async void OnViewLoaded(object view)
 		{
 			base.OnViewLoaded(view);
-			await LoadProducts();
+			try
+			{
+				await LoadProducts();
+			}
+			catch (System.Exception ex)
+			{
+				dynamic settings = new ExpandoObject();
+				settings.WindowsStartupLocation = WindowStartupLocation.CenterOwner;
+				settings.ResizeMode = ResizeMode.NoResize;
+				settings.Title = "System Error";
+
+				if (ex.Message == "Unauthorized")
+				{
+					_statusInfoViewModel.UpdateMessage("UnAuthorized Access", "You do not have permission to interact with the Sales Form");
+					_window.ShowDialog(_statusInfoViewModel, null, settings);
+				}
+				else
+				{
+					_statusInfoViewModel.UpdateMessage("Fatal Exception", ex.Message);
+					_window.ShowDialog(_statusInfoViewModel, null, settings);
+				}
+				TryClose();
+			}
 		}
 
 		private async Task LoadProducts()
