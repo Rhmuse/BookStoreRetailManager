@@ -8,12 +8,14 @@ namespace BSRMDataManager.Controllers
     [Authorize]
     public class InventoryController : ApiController
     {
+        [Authorize(Roles = "Admin")]
         public void Post(InventoryModel item)
         {
             InventoryData data = new InventoryData();
             data.SaveInventoryRecord(item);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [Route("GetInventoryReport")]
         public List<InventoryModel> GetInventoryReport()
         {
