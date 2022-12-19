@@ -5,106 +5,106 @@ using System.Threading.Tasks;
 
 namespace BSRMWPFUserInterface.ViewModels
 {
-	public class LoginViewModel : Screen
-	{
-		private string _userName = "email@email.com";
-		private string _password = "Password1!";
-		private IAPIHelper _apiHelper;
-		private IEventAggregator _events;
+    public class LoginViewModel : Screen
+    {
+        private string _userName = "email@email.com";
+        private string _password = "Password1!";
+        private IAPIHelper _apiHelper;
+        private IEventAggregator _events;
 
-		public LoginViewModel(IAPIHelper apiHelper, IEventAggregator events)
-		{
-			_apiHelper = apiHelper;
-			_events = events;
-		}
+        public LoginViewModel(IAPIHelper apiHelper, IEventAggregator events)
+        {
+            _apiHelper = apiHelper;
+            _events = events;
+        }
 
-		public string UserName
-		{
-			get { return _userName; }
-			set
-			{
-				_userName = value;
-				NotifyOfPropertyChange(() => UserName);
-				NotifyOfPropertyChange(() => CanLogIn);
-			}
-		}
+        public string UserName
+        {
+            get { return _userName; }
+            set
+            {
+                _userName = value;
+                NotifyOfPropertyChange(() => UserName);
+                NotifyOfPropertyChange(() => CanLogIn);
+            }
+        }
 
-		public string Password
-		{
-			get { return _password; }
-			set
-			{
-				_password = value;
-				NotifyOfPropertyChange(() => Password);
-				NotifyOfPropertyChange(() => CanLogIn);
-			}
-		}
-
-
-
-		public bool IsErrorVisible
-		{
-			get
-			{
-				bool output = false;
-
-				if (ErrorMessage?.Length > 0)
-				{
-					output = true;
-				}
-				return output;
-			}
-		}
-
-		private string _errorMessage;
-
-		public string ErrorMessage
-		{
-			get { return _errorMessage; }
-			set
-			{
-				_errorMessage = value;
-				NotifyOfPropertyChange(() => IsErrorVisible);
-				NotifyOfPropertyChange(() => ErrorMessage);
-			}
-		}
+        public string Password
+        {
+            get { return _password; }
+            set
+            {
+                _password = value;
+                NotifyOfPropertyChange(() => Password);
+                NotifyOfPropertyChange(() => CanLogIn);
+            }
+        }
 
 
 
+        public bool IsErrorVisible
+        {
+            get
+            {
+                bool output = false;
 
-		public bool CanLogIn
-		{
-			get
-			{
-				bool output = false;
+                if (ErrorMessage?.Length > 0)
+                {
+                    output = true;
+                }
+                return output;
+            }
+        }
 
-				if (UserName?.Length > 0 && Password?.Length > 0)
-				{
-					output = true;
-				}
+        private string _errorMessage;
 
-				return output;
-			}
+        public string ErrorMessage
+        {
+            get { return _errorMessage; }
+            set
+            {
+                _errorMessage = value;
+                NotifyOfPropertyChange(() => IsErrorVisible);
+                NotifyOfPropertyChange(() => ErrorMessage);
+            }
+        }
 
-		}
 
-		public async Task LogIn()
-		{
-			try
-			{
-				ErrorMessage = "";
-				var result = await _apiHelper.Authenticate(UserName, Password);
 
-				// Capture more information about the user.
-				await _apiHelper.GetLoggedInUserAsync(result.Access_Token);
 
-				_events.PublishOnUIThread(new LogOnEvent());
-			}
-			catch (System.Exception ex)
-			{
+        public bool CanLogIn
+        {
+            get
+            {
+                bool output = false;
 
-				ErrorMessage = ex.Message;
-			}
-		}
-	}
+                if (UserName?.Length > 0 && Password?.Length > 0)
+                {
+                    output = true;
+                }
+
+                return output;
+            }
+
+        }
+
+        public async Task LogIn()
+        {
+            try
+            {
+                ErrorMessage = "";
+                var result = await _apiHelper.Authenticate(UserName, Password);
+
+                // Capture more information about the user.
+                await _apiHelper.GetLoggedInUserAsync(result.Access_Token);
+
+                _events.PublishOnUIThread(new LogOnEvent());
+            }
+            catch (System.Exception ex)
+            {
+
+                ErrorMessage = ex.Message;
+            }
+        }
+    }
 }

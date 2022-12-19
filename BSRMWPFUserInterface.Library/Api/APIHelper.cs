@@ -1,8 +1,6 @@
-﻿using BSRMDataManager.Models;
-using BSRMWPFUserInterface.Library.Models;
+﻿using BSRMWPFUserInterface.Library.Models;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -30,14 +28,15 @@ namespace BSRMWPFUserInterface.Library.Api
 
         private void InitializeClient()
         {
-            string api = ConfigurationManager.AppSettings["api"];
+            string api = System.Configuration.ConfigurationManager.AppSettings["api"];
+
             _apiClient = new HttpClient();
             _apiClient.BaseAddress = new Uri(api);
             _apiClient.DefaultRequestHeaders.Accept.Clear();
             _apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<AuthenticatedUser> Authenticate(string userName, string password)
+        public async Task<AuthenticatedUserModel> Authenticate(string userName, string password)
         {
             var data = new FormUrlEncodedContent(new[]
             {
@@ -50,7 +49,7 @@ namespace BSRMWPFUserInterface.Library.Api
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<AuthenticatedUser>();
+                    var result = await response.Content.ReadAsAsync<AuthenticatedUserModel>();
                     return result;
                 }
                 else

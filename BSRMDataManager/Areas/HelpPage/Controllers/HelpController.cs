@@ -1,8 +1,8 @@
+using BSRMDataManager.Areas.HelpPage.ModelDescriptions;
+using BSRMDataManager.Areas.HelpPage.Models;
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using BSRMDataManager.Areas.HelpPage.ModelDescriptions;
-using BSRMDataManager.Areas.HelpPage.Models;
 
 namespace BSRMDataManager.Areas.HelpPage.Controllers
 {
