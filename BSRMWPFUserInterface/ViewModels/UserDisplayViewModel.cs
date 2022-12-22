@@ -39,6 +39,7 @@ namespace BSRMWPFUserInterface.ViewModels
                 _selectedUser = value;
                 SelectedUserName = value.Email;
                 UserRoles.Clear();
+                AvailableRoles.Clear();
                 UserRoles = new BindingList<string>(value.Roles.Select(x => x.Value).ToList());
                 LoadRoles();
                 NotifyOfPropertyChange(() => (SelectedUser));

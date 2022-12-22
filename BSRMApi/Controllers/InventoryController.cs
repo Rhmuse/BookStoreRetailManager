@@ -18,6 +18,7 @@ namespace BSRMApi.Controllers
             _config = config;
         }
         [Authorize(Roles = "Admin")]
+        [HttpPost]
         public void Post(InventoryModel item)
         {
             InventoryData data = new InventoryData(_config);
@@ -26,6 +27,7 @@ namespace BSRMApi.Controllers
 
         [Authorize(Roles = "Manager,Admin")]
         [Route("GetInventoryReport")]
+        [HttpGet]
         public List<InventoryModel> GetInventoryReport()
         {
             InventoryData data = new InventoryData(_config);

@@ -17,6 +17,7 @@ namespace BSRMApi.Controllers
         {
             _config = config;
         }
+        [HttpGet]
         public List<ProductModel> GetAllProducts()
         {
             ProductData data = new ProductData(_config);

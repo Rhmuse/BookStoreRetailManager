@@ -20,6 +20,7 @@ namespace BSRMApi.Controllers
         }
 
         [Authorize(Roles = "Cashier")]
+        [HttpPost]
         public void Post(SaleModel sale)
         {
             SaleData data = new SaleData(_config);
@@ -30,6 +31,7 @@ namespace BSRMApi.Controllers
 
         [Authorize(Roles = "Manager,Admin")]
         [Route("GetSalesReport")]
+        [HttpGet]
         public List<SaleReportModel> GetSalesReport()
         {
             SaleData data = new SaleData(_config);

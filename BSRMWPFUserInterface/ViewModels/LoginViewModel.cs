@@ -7,7 +7,7 @@ namespace BSRMWPFUserInterface.ViewModels
 {
     public class LoginViewModel : Screen
     {
-        private string _userName = "email@email.com";
+        private string _userName = "Rhett@email.com";
         private string _password = "Password1!";
         private IAPIHelper _apiHelper;
         private IEventAggregator _events;
