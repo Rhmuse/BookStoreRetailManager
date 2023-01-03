@@ -81,7 +81,6 @@ namespace BSRMWPFUserInterface.ViewModels
             set
             {
                 _selectedUserName = value;
-                NotifyOfPropertyChange(() => (SelectedUserName));
             }
         }
 
@@ -132,14 +131,14 @@ namespace BSRMWPFUserInterface.ViewModels
                 if (ex.Message == "Unauthorized")
                 {
                     _status.UpdateMessage("UnAuthorized Access", "You do not have permission to interact with the Sales Form");
-                    _window.ShowDialog(_status, null, settings);
+                    await _window.ShowDialogAsync(_status, null, settings);
                 }
                 else
                 {
                     _status.UpdateMessage("Fatal Exception", ex.Message);
-                    _window.ShowDialog(_status, null, settings);
+                    await _window.ShowDialogAsync(_status, null, settings);
                 }
-                TryClose();
+                TryCloseAsync();
             }
         }
 
@@ -147,6 +146,7 @@ namespace BSRMWPFUserInterface.ViewModels
         {
             var userList = await _userEndpoint.GetAll();
             Users = new BindingList<UserModel>(userList);
+            SelectedUser = Users.FirstOrDefault();
         }
 
         private async Task LoadRoles()
@@ -166,15 +166,19 @@ namespace BSRMWPFUserInterface.ViewModels
         {
             await _userEndpoint.AddRoleToUser(SelectedUser.Id, SelectedAvailableRole);
 
-            UserRoles.Add(SelectedAvailableRole);
-            AvailableRoles.Remove(SelectedAvailableRole);
+            //UserRoles.Add(SelectedAvailableRole);
+            //AvailableRoles.Remove(SelectedAvailableRole);
+
+            //LoadUsers();
         }
         public async void RemoveSelectedRole()
         {
             await _userEndpoint.RemoveRoleFromUser(SelectedUser.Id, SelectedUserRole);
 
-            AvailableRoles.Add(SelectedAvailableRole);
-            UserRoles.Remove(SelectedAvailableRole);
+            //AvailableRoles.Add(SelectedAvailableRole);
+            //UserRoles.Remove(SelectedAvailableRole);
+
+            //LoadUsers();
         }
     }
 }

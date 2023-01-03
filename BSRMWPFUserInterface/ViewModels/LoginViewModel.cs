@@ -1,6 +1,7 @@
 ﻿using BSRMWPFUserInterface.EventModels;
 using BSRMWPFUserInterface.Library.Api;
 using Caliburn.Micro;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BSRMWPFUserInterface.ViewModels
@@ -98,7 +99,7 @@ namespace BSRMWPFUserInterface.ViewModels
                 // Capture more information about the user.
                 await _apiHelper.GetLoggedInUserAsync(result.Access_Token);
 
-                _events.PublishOnUIThread(new LogOnEvent());
+                await _events.PublishOnUIThreadAsync(new LogOnEvent(), new CancellationToken());
             }
             catch (System.Exception ex)
             {

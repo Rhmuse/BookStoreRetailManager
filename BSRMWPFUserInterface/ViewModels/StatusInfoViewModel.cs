@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using System.Threading.Tasks;
 
 namespace BSRMWPFUserInterface.ViewModels
 {
@@ -15,9 +16,9 @@ namespace BSRMWPFUserInterface.ViewModels
             NotifyOfPropertyChange(() => Message);
         }
 
-        public void Close()
+        public async Task Close()
         {
-            TryClose();
+            TryCloseAsync();
         }
     }
 }

@@ -57,14 +57,14 @@ namespace BSRMWPFUserInterface.ViewModels
                 if (ex.Message == "Unauthorized")
                 {
                     _statusInfoViewModel.UpdateMessage("UnAuthorized Access", "You do not have permission to interact with the Sales Form");
-                    _window.ShowDialog(_statusInfoViewModel, null, settings);
+                    await _window.ShowDialogAsync(_statusInfoViewModel, null, settings);
                 }
                 else
                 {
                     _statusInfoViewModel.UpdateMessage("Fatal Exception", ex.Message);
-                    _window.ShowDialog(_statusInfoViewModel, null, settings);
+                    await _window.ShowDialogAsync(_statusInfoViewModel, null, settings);
                 }
-                TryClose();
+                TryCloseAsync();
             }
         }
 
