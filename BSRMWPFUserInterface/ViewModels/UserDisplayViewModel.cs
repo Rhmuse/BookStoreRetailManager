@@ -38,8 +38,6 @@ namespace BSRMWPFUserInterface.ViewModels
             {
                 _selectedUser = value;
                 SelectedUserName = value.Email;
-                UserRoles.Clear();
-                AvailableRoles.Clear();
                 UserRoles = new BindingList<string>(value.Roles.Select(x => x.Value).ToList());
                 LoadRoles();
                 NotifyOfPropertyChange(() => (SelectedUser));
@@ -146,7 +144,6 @@ namespace BSRMWPFUserInterface.ViewModels
         {
             var userList = await _userEndpoint.GetAll();
             Users = new BindingList<UserModel>(userList);
-            SelectedUser = Users.FirstOrDefault();
         }
 
         private async Task LoadRoles()
@@ -166,19 +163,15 @@ namespace BSRMWPFUserInterface.ViewModels
         {
             await _userEndpoint.AddRoleToUser(SelectedUser.Id, SelectedAvailableRole);
 
-            //UserRoles.Add(SelectedAvailableRole);
-            //AvailableRoles.Remove(SelectedAvailableRole);
-
-            //LoadUsers();
+            UserRoles.Add(SelectedAvailableRole);
+            AvailableRoles.Remove(SelectedAvailableRole);
         }
         public async void RemoveSelectedRole()
         {
             await _userEndpoint.RemoveRoleFromUser(SelectedUser.Id, SelectedUserRole);
 
-            //AvailableRoles.Add(SelectedAvailableRole);
-            //UserRoles.Remove(SelectedAvailableRole);
-
-            //LoadUsers();
+            AvailableRoles.Add(SelectedAvailableRole);
+            UserRoles.Remove(SelectedAvailableRole);
         }
     }
 }

@@ -22,8 +22,6 @@ namespace BSRMWPFUserInterface.ViewModels
         private readonly StatusInfoViewModel _statusInfoViewModel;
         private readonly IWindowManager _window;
 
-
-
         public SalesViewModel(
             IProductEndpoint productEndpoint,
             IConfigHelper configHelper,
