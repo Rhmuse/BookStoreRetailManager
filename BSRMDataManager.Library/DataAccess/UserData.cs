@@ -5,20 +5,19 @@ using System.Collections.Generic;
 
 namespace BSRMDataManager.Library.DataAccess
 {
-    public class UserData
+    public class UserData : IUserData
     {
-        private readonly IConfiguration _config;
-        public UserData(IConfiguration config)
+
+        private readonly ISqlDataAccess _sql;
+
+        public UserData(IConfiguration config, ISqlDataAccess sql)
         {
-            _config = config;
+
+            _sql = sql;
         }
         public List<UserModel> GetUserById(string Id)
         {
-            SqlDataAccess sql = new SqlDataAccess(_config);
-
-            var p = new { Id = Id };
-
-            var output = sql.LoadData<UserModel, dynamic>("dbo.spUserLookup", p, "BSRMData");
+            var output = _sql.LoadData<UserModel, dynamic>("dbo.spUserLookup", new { Id }, "BSRMData");
 
             return output;
         }

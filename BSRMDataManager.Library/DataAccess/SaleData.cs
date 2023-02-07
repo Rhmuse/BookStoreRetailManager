@@ -1,26 +1,26 @@
 ﻿using BSRMDataManager.Library.Internal.DataAccess;
 using BSRMDataManager.Library.Models;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace BSRMDataManager.Library.DataAccess
 {
-    public class SaleData
+    public class SaleData : ISaleData
     {
-        private readonly IConfiguration _config;
-        public SaleData(IConfiguration config)
-        {
-            _config = config;
-        }
+        private readonly IProductData _productData;
+        private readonly ISqlDataAccess _sql;
 
+        public SaleData(IProductData ProductData, ISqlDataAccess sql)
+        {
+            _productData = ProductData;
+            _sql = sql;
+        }
 
         public void SaveSale(SaleModel saleInfo, string cashierId)
         {
             // Start filling in the sale detail models to save to the database
             List<SaleDetailDBModel> details = new List<SaleDetailDBModel>();
-            ProductData products = new ProductData(_config);
             var taxRate = ConfigHelper.GetTaxRate() / 100;
 
             foreach (var item in saleInfo.SaleDetails)
@@ -32,7 +32,7 @@ namespace BSRMDataManager.Library.DataAccess
                 };
 
                 // Get the information about this product
-                var productInfo = products.GetProductById(detail.ProductId);
+                var productInfo = _productData.GetProductById(detail.ProductId);
 
                 if (productInfo == null)
                 {
@@ -58,45 +58,37 @@ namespace BSRMDataManager.Library.DataAccess
 
             sale.Total = sale.SubTotal + sale.Tax;
 
-
-            using (SqlDataAccess sql = new SqlDataAccess(_config))
+            try
             {
+                _sql.StartTransaction("BSRMData");
 
-                try
+                // Save the sale model
+                _sql.SaveDataInTransaction("dbo.spSale_Insert", sale);
+
+                // Get the Id from the sale model
+                sale.Id = _sql.LoadDataInTransaction<int, dynamic>("spSale_Lookup", new { sale.CashierId, sale.SaleDate }).FirstOrDefault();
+
+                // Finish filling in the sale detail models
+                foreach (var item in details)
                 {
-                    sql.StartTransaction("BSRMData");
+                    item.SaleId = sale.Id;
 
-                    // Save the sale model
-                    sql.SaveDataInTransaction("dbo.spSale_Insert", sale);
-
-                    // Get the Id from the sale model
-                    sale.Id = sql.LoadDataInTransaction<int, dynamic>("spSale_Lookup", new { sale.CashierId, sale.SaleDate }).FirstOrDefault();
-
-                    // Finish filling in the sale detail models
-                    foreach (var item in details)
-                    {
-                        item.SaleId = sale.Id;
-
-                        // Save the sale detail models
-                        sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", item);
-                    }
-
-                    sql.CommitTransation();
+                    // Save the sale detail models
+                    _sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", item);
                 }
-                catch
-                {
-                    sql.RollBackTransaction();
-                    throw;
-                }
+
+                _sql.CommitTransation();
             }
-
+            catch
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
         }
 
         public List<SaleReportModel> GetSaleReports()
         {
-            SqlDataAccess sql = new SqlDataAccess(_config);
-
-            var output = sql.LoadData<SaleReportModel, dynamic>("dbo.spSale_SaleReport", new { }, "BSRMData");
+            var output = _sql.LoadData<SaleReportModel, dynamic>("dbo.spSale_SaleReport", new { }, "BSRMData");
 
             return output;
         }

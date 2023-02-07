@@ -13,16 +13,12 @@ namespace BSRMApi.Controllers
     public class InventoryController : ControllerBase
     {
         private readonly IConfiguration _config;
-        public InventoryController(IConfiguration config)
+        private readonly IInventoryData _inventoryData;
+
+        public InventoryController(IConfiguration config, IInventoryData inventoryData)
         {
             _config = config;
-        }
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public void Post(InventoryModel item)
-        {
-            InventoryData data = new InventoryData(_config);
-            data.SaveInventoryRecord(item);
+            _inventoryData = inventoryData;
         }
 
         [Authorize(Roles = "Manager,Admin")]
@@ -30,8 +26,14 @@ namespace BSRMApi.Controllers
         [HttpGet]
         public List<InventoryModel> GetInventoryReport()
         {
-            InventoryData data = new InventoryData(_config);
-            return data.GetInventory();
+            return _inventoryData.GetInventory();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public void Post(InventoryModel item)
+        {
+            _inventoryData.SaveInventoryRecord(item);
         }
     }
 }

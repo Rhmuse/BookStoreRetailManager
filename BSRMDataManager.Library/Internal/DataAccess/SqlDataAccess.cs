@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace BSRMDataManager.Library.Internal.DataAccess
 {
-    internal class SqlDataAccess : IDisposable
+    public class SqlDataAccess : IDisposable, ISqlDataAccess
     {
         private IConfiguration _config;
 
